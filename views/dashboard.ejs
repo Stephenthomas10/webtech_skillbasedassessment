@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Dashboard</title>
+</head>
+<body>
+    <nav>
+        <a href="/dashboard">Dashboard</a>
+        <form action="/signout" method="POST" style="display:inline;">
+            <button type="submit">Sign Out</button>
+        </form>
+    </nav>
+    
+    <div class="container">
+        <h1>Welcome to Your Dashboard</h1>
+        <form action="/select-genre" method="POST">
+            <select name="genre" required>
+                <option value="">Select Genre</option>
+                <option value="Fiction">Fiction</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Romance">Romance</option>
+                <option value="Drama">Drama</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+            </select>
+            <button type="submit">Get Recommendations</button>
+        </form>
+
+        <h2>Your Reading List</h2>
+        <ul>
+            <% readingList.forEach(book => { %>
+                <li>
+                    <%= book.bookTitle %> 
+                    <% if (book.comment) { %>
+                        <p><strong>Comment:</strong> <%= book.comment %></p>
+                    <% } %>
+                    <% if (book.rating) { %>
+                        <p><strong>Rating:</strong> <%= book.rating %> / 5</p>
+                    <% } %>
+                    <form action="/remove-from-list" method="POST" style="display:inline;">
+                        <input type="hidden" name="bookTitle" value="<%= book.bookTitle %>">
+                        <button type="submit">Remove</button>
+                    </form>
+                    <form action="/add-review" method="POST">
+                        <input type="hidden" name="bookTitle" value="<%= book.bookTitle %>">
+                        <input type="text" name="comment" placeholder="Comment">
+                        <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)">
+                        <button type="submit">Add Review</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+</body>
+</html>

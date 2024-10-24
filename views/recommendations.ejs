@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Recommendations for <%= selectedGenre %></title>
+</head>
+<body>
+  <nav>
+    <a href="/dashboard">Dashboard</a>
+    <form action="/signout" method="POST" style="display:inline;">
+      <button type="submit">Sign Out</button>
+    </form>
+  </nav>
+
+  <div class="container">
+    <h1>Recommended Books in <%= selectedGenre %></h1>
+    <ul>
+      <% books.forEach(book => { %>
+        <li>
+          <img src="<%= book.imageUrl %>" alt="Book Cover" width="100"><br>
+          <%= book.title %><br>
+          <form action="/add-to-list" method="POST">
+            <input type="hidden" name="bookTitle" value="<%= book.title %>">
+            <button type="submit">Add to Reading List</button>
+          </form>
+        </li>
+      <% }); %>
+    </ul>
+    <a href="/dashboard">Back to Dashboard</a>
+  </div>
+</body>
+</html>
